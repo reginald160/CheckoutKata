@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 
 namespace CheckoutKata.UnitTest.Models
@@ -20,19 +21,11 @@ namespace CheckoutKata.UnitTest.Models
         [Fact]
         public void TestScanMethod()
         {
-            // Arrange
-            var pricingRules = new Dictionary<string, PricingRule>
-            {
-                { "A", new PricingRule { SKU = "A", UnitPrice = 50 } },
-                { "B", new PricingRule { SKU = "B", UnitPrice = 30 } },
-                { "C", new PricingRule { SKU = "C", UnitPrice = 20 } }
-            };
-
-            var checkout = new Checkout(pricingRules);
+           
+            var checkout = new Checkout(_pricingRules);
 
             // Act & Assert: Valid items
             checkout.Scan("A"); // Scanning item A
-            Assert.Single(checkout.GetAllScannedItems()); // Only 1 unique item scanned so far
             Assert.Equal(1, checkout.GetAllScannedItems()["A"]); // Count of A should be 1
 
             checkout.Scan("A"); // Scanning item A again
@@ -40,11 +33,7 @@ namespace CheckoutKata.UnitTest.Models
 
             checkout.Scan("B"); // Scanning item B
             checkout.Scan("B"); // Scanning item B
-            Assert.Equal(1, checkout.GetAllScannedItems()["B"]); // Count of B should be 1
-
-            checkout.Scan("B"); // Scanning item B
-            checkout.Scan("B"); // Scanning item B
-            Assert.Equal(6, checkout.GetAllScannedItems().Count); // Count of B should be 1
+            Assert.Equal(2, checkout.GetAllScannedItems()["B"]);
 
             // Act & Assert: Invalid item
             var ex = Assert.Throws<ArgumentException>(() => checkout.Scan("X"));

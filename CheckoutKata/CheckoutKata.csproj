@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xUnit" Version="2.9.3" />
+    <Compile Remove="UnitTest\**" />
+    <EmbeddedResource Remove="UnitTest\**" />
+    <None Remove="UnitTest\**" />
   </ItemGroup>
 
 </Project>

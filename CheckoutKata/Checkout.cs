@@ -22,8 +22,12 @@ namespace CheckoutKata
         {
             throw new NotImplementedException();
         }
-
-        public int GetTotalPrice()
+        [Obsolete]
+        public Dictionary<string, int> GetAllScannedItems()
+        {
+            return _scannedItems;
+        }
+        public decimal GetTotalPrice()
         {
             throw new NotImplementedException();
         }
