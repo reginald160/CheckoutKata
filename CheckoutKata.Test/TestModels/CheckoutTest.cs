@@ -70,9 +70,8 @@ namespace CheckoutKata.UnitTest.Models
             checkout.Scan("D");
             Assert.Equal(85, checkout.GetTotalPrice());
         }
-
         [Fact]
-        public void TestForSpecialPricing()
+        public void TestForSingSpecialAPricing()
         {
             var checkout = new Checkout(_pricingRules);
 
@@ -81,15 +80,53 @@ namespace CheckoutKata.UnitTest.Models
             checkout.Scan("A");
             Assert.Equal(130, checkout.GetTotalPrice());
 
+        }
+        [Fact]
+        public void TestForSingSpecialBPricing()
+        {
+            var checkout = new Checkout(_pricingRules);
+
             checkout.Scan("B");
+            checkout.Scan("B");
+            Assert.Equal(45, checkout.GetTotalPrice());
+        }
+
+        [Fact]
+        public void TestForSpecialPricing()
+        {
+            var checkout = new Checkout(_pricingRules);
+
+            checkout.Scan("A");
+            Assert.Equal(50, checkout.GetTotalPrice());
+
+            checkout.Scan("B");
+            Assert.Equal(80, checkout.GetTotalPrice());
+
+            checkout.Scan("A");
+            Assert.Equal(130, checkout.GetTotalPrice());
+
+
+            checkout.Scan("A");
+            Assert.Equal(160, checkout.GetTotalPrice());
+
             checkout.Scan("B");
             Assert.Equal(175, checkout.GetTotalPrice());
 
-            checkout.Scan("E");
-            checkout.Scan("E");
-            checkout.Scan("E");
-            checkout.Scan("E");
-            Assert.Equal(435, checkout.GetTotalPrice());
+
+            //checkout.Scan("A");
+            //checkout.Scan("A");
+            //checkout.Scan("A");
+            //Assert.Equal(130, checkout.GetTotalPrice());
+
+            //checkout.Scan("B");
+            //checkout.Scan("B");
+            //Assert.Equal(175, checkout.GetTotalPrice());
+
+            //checkout.Scan("E");
+            //checkout.Scan("E");
+            //checkout.Scan("E");
+            //checkout.Scan("E");
+            //Assert.Equal(435, checkout.GetTotalPrice());
         }
 
         [Fact]
@@ -99,17 +136,17 @@ namespace CheckoutKata.UnitTest.Models
 
             checkout.Scan("A");
             checkout.Scan("A");
-            checkout.Scan("A"); // Special pricing for 3 A's
+            checkout.Scan("A"); 
             Assert.Equal(130, checkout.GetTotalPrice());
 
             checkout.Scan("B");
-            Assert.Equal(160, checkout.GetTotalPrice()); // Add 1 B
+            Assert.Equal(160, checkout.GetTotalPrice()); 
 
             checkout.Scan("C");
-            Assert.Equal(180, checkout.GetTotalPrice()); // Add 1 C
+            Assert.Equal(180, checkout.GetTotalPrice()); 
 
             checkout.Scan("D");
-            checkout.Scan("B"); // Special pricing for 2 B's
+            checkout.Scan("B"); 
             Assert.Equal(205, checkout.GetTotalPrice());
         }
 

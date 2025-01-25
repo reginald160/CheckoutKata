@@ -41,7 +41,26 @@ namespace CheckoutKata
         }
         public decimal GetTotalPrice()
         {
-            throw new NotImplementedException();
+            decimal total = 0;
+
+            foreach (var item in _scannedItems)
+            {
+                PricingRule rule = _pricingRules[item.Key];
+                int quantity = item.Value;
+
+                if (rule.SpecialQuantity.HasValue && rule.SpecialPrice.HasValue)
+                {
+                    int specialBundles = quantity / rule.SpecialQuantity.Value;
+                    int remainingItems = quantity % rule.SpecialQuantity.Value;
+                    total += (specialBundles * rule.SpecialPrice.Value) + (remainingItems * rule.UnitPrice);
+                }
+                else
+                {
+                    total += quantity * rule.UnitPrice;
+                }
+            }
+
+            return total;
         }
     }
 }
