@@ -20,7 +20,19 @@ namespace CheckoutKata
         }
         public void Scan(string item)
         {
-            throw new NotImplementedException();
+            if (!_pricingRules.ContainsKey(item))
+            {
+                throw new ArgumentException($"Invalid item: {item}");
+            }
+
+            if (_scannedItems.ContainsKey(item))
+            {
+                _scannedItems[item]++;
+            }
+            else
+            {
+                _scannedItems[item] = 1;
+            }
         }
         [Obsolete]
         public Dictionary<string, int> GetAllScannedItems()
