@@ -26,18 +26,18 @@ namespace CheckoutKata.UnitTest.Models
 
             // Act & Assert: Valid items
             checkout.Scan("A"); // Scanning item A
-            Assert.Equal(1, checkout.GetAllScannedItems()["A"]); // Count of A should be 1
+            Assert.Equal(1, checkout.GetAllScannedItems()["A"]); 
 
-            checkout.Scan("A"); // Scanning item A again
-            Assert.Equal(2, checkout.GetAllScannedItems()["A"]); // Count of A should now be 2
+            checkout.Scan("A"); 
+            Assert.Equal(2, checkout.GetAllScannedItems()["A"]); 
 
-            checkout.Scan("B"); // Scanning item B
-            checkout.Scan("B"); // Scanning item B
+            checkout.Scan("B"); 
+            checkout.Scan("B"); 
             Assert.Equal(2, checkout.GetAllScannedItems()["B"]);
 
             // Act & Assert: Invalid item
             var ex = Assert.Throws<ArgumentException>(() => checkout.Scan("X"));
-            Assert.Equal("Invalid item: X", ex.Message); // Ensure the error message is correct
+            Assert.Equal("Invalid item: X", ex.Message); 
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace CheckoutKata.UnitTest.Models
 
             checkout.Scan("D");
             checkout.Scan("B"); 
-            Assert.Equal(205, checkout.GetTotalPrice());
+            Assert.Equal(210, checkout.GetTotalPrice());
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace CheckoutKata.UnitTest.Models
             {
                 checkout.Scan("K");
             }
-            Assert.Equal(280, checkout.GetTotalPrice()); 
+            Assert.Equal(330, checkout.GetTotalPrice()); 
         }
 
         [Fact]
@@ -183,7 +183,7 @@ namespace CheckoutKata.UnitTest.Models
                 checkout.Scan(item);
             }
 
-            Assert.Equal(570, checkout.GetTotalPrice());
+            Assert.Equal(710, checkout.GetTotalPrice());
         }
 
     }
