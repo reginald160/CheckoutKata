@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata.Interface
 {
-    public interface ICheckout
+    public interface ICheckoutService
     {
-        Dictionary<string, int> GetAllScannedItems();
         decimal GetTotalPrice();
         void Scan(string item);
     }

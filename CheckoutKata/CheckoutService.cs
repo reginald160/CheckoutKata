@@ -8,12 +8,12 @@ namespace CheckoutKata
     /// <summary>
     /// Represents a checkout system that processes scanned items and calculates the total price based on pricing rules.
     /// </summary>
-    public class Checkout : ICheckout
+    public class CheckoutService : ICheckoutService
     {
         /// <summary>
         /// Stores the pricing rules for the items.
         /// </summary>
-        private readonly Dictionary<string, PricingRule> _pricingRules;
+        private readonly IPrincipalRulesService _pricingRules;
 
         /// <summary>
         /// Stores the scanned items and their quantities.
@@ -21,14 +21,19 @@ namespace CheckoutKata
         private readonly Dictionary<string, int> _scannedItems;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Checkout"/> class.
+        /// Initializes a new instance of the <see cref="CheckoutService"/> class.
         /// </summary>
         /// <param name="pricingRules">A dictionary of pricing rules for items, where the key is the SKU.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="pricingRules"/> is null.</exception>
-        public Checkout(Dictionary<string, PricingRule> pricingRules)
+        public CheckoutService( IPrincipalRulesService pricingRules)
         {
-            _pricingRules = pricingRules ?? throw new ArgumentNullException(nameof(pricingRules));
+            _pricingRules = pricingRules;
             _scannedItems = new Dictionary<string, int>();
+        }
+
+        public CheckoutService()
+        {
+
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace CheckoutKata
         /// <exception cref="ArgumentException">Thrown when the item is not found in the pricing rules.</exception>
         public void Scan(string item)
         {
-            if (!_pricingRules.ContainsKey(item))
+            if (!_pricingRules.GetPricingRules().ContainsKey(item))
             {
                 throw new ArgumentException($"Invalid item: {item}");
             }
@@ -54,16 +59,6 @@ namespace CheckoutKata
         }
 
         /// <summary>
-        /// Gets all scanned items and their respective quantities.
-        /// </summary>
-        /// <returns>A dictionary where the key is the SKU and the value is the quantity of scanned items.</returns>
-        [Obsolete("This method is deprecated and is only intended for debugging purposes.")]
-        public Dictionary<string, int> GetAllScannedItems()
-        {
-            return _scannedItems;
-        }
-
-        /// <summary>
         /// Calculates the total price for all scanned items based on the pricing rules.
         /// </summary>
         /// <returns>The total price as a decimal value.</returns>
@@ -73,7 +68,7 @@ namespace CheckoutKata
 
             foreach (var item in _scannedItems)
             {
-                PricingRule rule = _pricingRules[item.Key];
+                PricingRule rule = _pricingRules.GetPricingRules()[item.Key];
                 int quantity = item.Value;
 
                 if (rule.SpecialQuantity.HasValue && rule.SpecialPrice.HasValue)

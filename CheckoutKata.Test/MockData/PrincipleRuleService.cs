@@ -1,4 +1,5 @@
-﻿using CheckoutKata.Models;
+﻿using CheckoutKata.Interface;
+using CheckoutKata.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata.UnitTest.MockData
 {
-    public class PrincipleRuleContext
+    public class PrincipleRuleService : IPrincipalRulesService
     {
-        public static Dictionary<string, PricingRule> GetSamplePricingRules()
+        public  Dictionary<string, PricingRule> GetPricingRules()
         {
             Dictionary<string, PricingRule> sampleData = new Dictionary<string, PricingRule>
             {

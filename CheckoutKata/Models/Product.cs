@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CheckoutKata.Models
 {
-    public class PricingRule : Product
+    public class Product
     {
-        public int? SpecialQuantity { get; set; }
-        public int? SpecialPrice { get; set; }
+        public string? SKU { get; set; }
+        public int UnitPrice { get; set; }
     }
 }
